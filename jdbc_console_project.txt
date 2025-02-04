@@ -97,7 +97,7 @@ public void create()
 	Statement s=null;
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-	    c = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+	    c = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "root");
 	    s=c.createStatement();
 	    s.executeUpdate("create table emp (eid int primary key, ename varchar(40), esal int);");
 	    } 
