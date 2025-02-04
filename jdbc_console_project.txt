@@ -1,0 +1,301 @@
+package com.tech;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+
+public class jdbcconsoleproject {
+
+	public static void main(String[] args) {
+		int count=1;
+		Dao d= new Dao();
+		Scanner s=new Scanner(System.in);
+		int option=0;
+		do
+		{
+			System.out.println("---- choose the correct option -----");
+			System.out.println("1: creating the table");
+			System.out.println("2: inserting into table");
+			System.out.println("3: updating row into table");
+			System.out.println("4: delete row from table ");
+			System.out.println("5: read all rows");
+			
+			option = s.nextInt();
+			switch(option)
+			{
+			case 0:
+				System.out.println("exit");
+				
+				return;
+				
+			case 1:
+				if(count==1)
+				{
+					d.create();
+					count++;
+				}
+				else
+				{
+					System.out.println("you can't create table multiple times");
+				}
+				break;
+				
+			case 2:
+				System.out.println("-----  enter eid ename esal in sequential order  -----");
+				int eid=s.nextInt();
+				s.nextLine();
+				String ename=s.nextLine();
+				int esal=s.nextInt();
+				System.out.println("eid= "+eid);
+				System.out.println("ename= "+ename);
+				System.out.println("esal= "+esal);
+				d.insert(1, "shreya", 20000000);
+				d.insert(2, "abc", 1000000);
+				break;
+			case 3:
+				try
+				{
+					System.out.println();
+					int eid1=s.nextInt();
+					int newsal=s.nextInt();
+					d.update(2, 1500000);
+					break; 
+				}
+				catch(Exception e)
+				{
+					System.out.println("something unusal happend");
+				}
+				
+			case 4:
+				if(count==1)
+				{
+					d.delete(2);
+					count++;
+				}
+				else
+				{
+					System.out.println("you can't delete the row  multiple times");
+				}
+				break;
+			case 5:
+				d.displaying();
+				break;
+			}
+		}while(option!=0);
+	}
+}
+class Dao{
+public void create() 
+
+{   
+	Connection c=null;
+	Statement s=null;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+	    c = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+	    s=c.createStatement();
+	    s.executeUpdate("create table emp (eid int primary key, ename varchar(40), esal int);");
+	    } 
+	catch (ClassNotFoundException e) {
+		System.out.println("driver is not properly loaded");
+		} 
+	catch (SQLException e) {
+		System.out.println("sql exception is been found");
+	}
+	finally
+	{
+		if(s!=null)
+		{
+			try {
+				s.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+		if(c!=null)
+		{
+			try {
+				c.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+	}
+	
+	
+	
+	
+	
+}
+public void insert(int eid, String ename ,int esal)
+{
+	Connection c= null;
+	PreparedStatement s=null;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+	    String query="insert into emp values(?,?,?)";
+	    s= c.prepareStatement(query);
+	    s.setInt(1, eid);
+	    s.setString(2, ename);
+	    s.setInt(3, esal);
+	    s.executeUpdate();
+	    }
+	catch (ClassNotFoundException e) {
+		System.out.println("driver is not loaded properly");
+	} 
+	catch (SQLException e) {
+		System.out.println("sql exception");
+	}
+	finally
+	{
+		if(s!=null)
+		{
+			try {
+				s.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+		if(c!=null)
+		{
+			try {
+				c.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+	}
+	
+}
+public void update(int eid,int newsal)
+{
+	Connection c=null;
+	PreparedStatement s=null;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		 c= DriverManager.getConnection("jdbc:mysql://localhost:3306/tech","root","janhavi23@");
+		String query= "update emp set esal=? where eid=?";
+				
+		s= c.prepareStatement(query);
+		s.setInt(1, newsal);
+		s.setInt(2, eid);
+		s.executeUpdate();
+	} catch (ClassNotFoundException e) {
+		System.out.println("driver is not loaded properly");
+	} catch (SQLException e) {
+		System.out.println("sql exception ");
+	}
+	finally
+	{
+		if(s!=null)
+		{
+			try {
+				s.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+		if(c!=null)
+		{
+			try {
+				c.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+	}
+	}
+public void delete(int eid)
+
+
+{
+	Connection c=null;
+	PreparedStatement s= null;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+	    c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+	    String query="delete from emp where eid=?";
+	    s=c.prepareStatement(query);
+	    s.setInt(1, eid);
+	    s.executeUpdate();
+} 
+	catch (ClassNotFoundException e) {
+		System.out.println("driver  not loaded  properly");
+	} 
+	catch (SQLException e) {
+		
+		System.out.println("sql exception");
+	}
+	finally
+	{
+		if(s!=null)
+		{
+			try {
+				s.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+		if(c!=null)
+		{
+			try {
+				c.close();
+			} catch (SQLException e) {
+				
+			}
+		}
+	}
+}
+public void displaying()
+{
+	Connection c=null;
+	Statement s= null;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+		s=c.createStatement();
+		ResultSet res=s.executeQuery("select * from emp");
+		System.out.println("\n ---- employee table is as below-----\n");
+		System.out.println("eid     ename      esal");
+		System.out.println("----    -----      ----");
+		while(res.next())
+		{
+			System.out.println(res.getInt(1)+"       "+res.getString(2)+"       "+res.getInt(3));
+		}
+		System.out.println();
+		
+	} catch (ClassNotFoundException e) {
+		System.out.println("driver not loaded properly");
+	
+	
+} catch (SQLException e) {
+		System.out.println("sql exception");
+	}
+
+finally
+{
+	if(s!=null) {
+		try {
+			s.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+	if(c!=null)
+	{
+		try {
+			c.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+}
+
+}
+}
