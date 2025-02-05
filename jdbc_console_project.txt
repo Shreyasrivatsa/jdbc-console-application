@@ -12,6 +12,9 @@ import java.util.Scanner;
 public class jdbcconsoleproject {
 
 	public static void main(String[] args) {
+                String url="jdbc:mysql://localhost:3306/tech";
+                String username="" ;// Change to your MySQL username
+                String password=""; // Change to your MySQL password
 		int count=1;
 		Dao d= new Dao();
 		Scanner s=new Scanner(System.in);
@@ -54,7 +57,7 @@ public class jdbcconsoleproject {
 				System.out.println("eid= "+eid);
 				System.out.println("ename= "+ename);
 				System.out.println("esal= "+esal);
-				d.insert(1, "shreya", 20000000);
+				d.insert(1, "ABC", 20000000);
 				d.insert(2, "abc", 1000000);
 				break;
 			case 3:
@@ -96,8 +99,8 @@ public void create()
 	Connection c=null;
 	Statement s=null;
 	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	    c = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "root");
+	    Class.forName("com.mysql.cj.jdbc.Driver");
+	    c = DriverManager.getConnection(url, username, password);
 	    s=c.createStatement();
 	    s.executeUpdate("create table emp (eid int primary key, ename varchar(40), esal int);");
 	    } 
@@ -138,7 +141,7 @@ public void insert(int eid, String ename ,int esal)
 	PreparedStatement s=null;
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+		c=DriverManager.getConnection(url, username, password);
 	    String query="insert into emp values(?,?,?)";
 	    s= c.prepareStatement(query);
 	    s.setInt(1, eid);
@@ -179,7 +182,7 @@ public void update(int eid,int newsal)
 	PreparedStatement s=null;
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		 c= DriverManager.getConnection("jdbc:mysql://localhost:3306/tech","root","janhavi23@");
+		 c= DriverManager.getConnection(url, username, password);
 		String query= "update emp set esal=? where eid=?";
 				
 		s= c.prepareStatement(query);
@@ -219,7 +222,7 @@ public void delete(int eid)
 	PreparedStatement s= null;
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-	    c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+	    c=DriverManager.getConnection(url, username, password);
 	    String query="delete from emp where eid=?";
 	    s=c.prepareStatement(query);
 	    s.setInt(1, eid);
@@ -258,7 +261,7 @@ public void displaying()
 	Statement s= null;
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		c=DriverManager.getConnection("jdbc:mysql://localhost:3306/tech", "root", "janhavi23@");
+		c=DriverManager.getConnection(url, username, password);
 		s=c.createStatement();
 		ResultSet res=s.executeQuery("select * from emp");
 		System.out.println("\n ---- employee table is as below-----\n");
