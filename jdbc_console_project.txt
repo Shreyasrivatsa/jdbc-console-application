@@ -12,10 +12,7 @@ import java.util.Scanner;
 public class jdbcconsoleproject {
 
 	public static void main(String[] args) {
-                String url="jdbc:mysql://localhost:3306/tech";
-                String username="" ;// Change to your MySQL username
-                String password=""; // Change to your MySQL password
-		int count=1;
+                int count=1;
 		Dao d= new Dao();
 		Scanner s=new Scanner(System.in);
 		int option=0;
@@ -33,9 +30,7 @@ public class jdbcconsoleproject {
 			{
 			case 0:
 				System.out.println("exit");
-				
 				return;
-				
 			case 1:
 				if(count==1)
 				{
@@ -47,7 +42,6 @@ public class jdbcconsoleproject {
 					System.out.println("you can't create table multiple times");
 				}
 				break;
-				
 			case 2:
 				System.out.println("-----  enter eid ename esal in sequential order  -----");
 				int eid=s.nextInt();
@@ -93,6 +87,9 @@ public class jdbcconsoleproject {
 	}
 }
 class Dao{
+                String url="jdbc:mysql://localhost:3306/tech";
+                String username="" ;// Change to your MySQL username
+                String password=""; // Change to your MySQL password
 public void create() 
 
 {   
